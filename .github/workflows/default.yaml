@@ -1,0 +1,90 @@
+name: Default
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    concurrency: lint
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref ${{ github.sha }}
+
+      - name: Force correct branch on workflow sha
+        run: git checkout -B ${{ github.ref_name }} ${{ github.sha }}
+
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12.6
+          cache: poetry
+
+      - name: Install Dependencies
+        run: poetry install --no-root --with dev --sync
+
+      - name: Lint Code
+        run: |
+          poetry run codespell `git ls-files "*.yaml" "*.yml" "*.md" "*.sh"`
+          poetry run yamllint --strict `git ls-files "*.yaml" "*.yml"`
+          poetry run mdformat --wrap 79 --number --check `git ls-files "*.md"`
+          poetry run shellcheck `git ls-files "*.sh"`
+
+  test:
+    runs-on: ubuntu-latest
+    requires: [ lint ]
+    concurrency: test
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref ${{ github.sha }}
+
+      - name: Force correct branch on workflow sha
+        run: git checkout -B ${{ github.ref_name }} ${{ github.sha }}
+
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12.6
+          cache: poetry
+
+      - name: Install Dependencies
+        run: |
+          ./bashdep.sh
+          poetry install --no-root --with dev --sync
+
+      - name: Run Tests
+        run: ./lib/bashunit --parallel `git ls-files "tests/*.sh"`
+
+  release:
+    runs-on: ubuntu-latest
+    requires: [ test ]
+    concurrency: release
+
+    permissions:
+      id-token: write
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.sha }}
+
+      - name: Force correct branch on workflow sha
+        run: git checkout -B ${{ github.ref_name }} ${{ github.sha }}
+
+      - name: Semantic Version Tagging
+        uses: python-semantic-release/python-semantic-release@v9.12.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          git_committer_name: "OpenFisca Bot"
+          git_committer_email: "bot+${{ github.sha }}@openfisca.org"
