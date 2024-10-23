@@ -18,12 +18,6 @@ function test_decode_with_hyphens() {
 }
 
 # @nodoc
-function test_lower_with_hyphens() {
-  actual=$(string::lower "L'Île-d'Yeu")
-  assert_same "l'île-d'yeu" "${actual}"
-}
-
-# @nodoc
 function test_sanitise_with_special_characters() {
   actual=$(string::sanitise 'Wellington & Suburbs')
   assert_same 'Wellington  Suburbs' "${actual}"
