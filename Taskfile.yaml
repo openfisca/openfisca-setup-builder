@@ -54,3 +54,11 @@ tasks:
       - poetry run yamllint --strict {{.YAML}}
       - poetry run mdformat --wrap 79 --number --check {{.MD}}
       - poetry run shellcheck {{.SH}}
+
+  test:
+    desc: Test the library.
+    vars:
+      SH_TEST:
+        ref: .SH_TEST | splitLines | join " "
+    cmds:
+      - lib/bashunit --parallel --simple {{.SH_TEST}}
