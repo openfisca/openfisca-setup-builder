@@ -7,7 +7,7 @@ on:
 
 jobs:
   lint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     concurrency: lint
 
     steps:
@@ -39,7 +39,7 @@ jobs:
           poetry run shellcheck `git ls-files "*.sh"`
 
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: [ lint ]
     concurrency: test
 
@@ -70,7 +70,7 @@ jobs:
         run: ./lib/bashunit --parallel `git ls-files "tests/*.sh"`
 
   release:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: [ test ]
     concurrency: release
 
