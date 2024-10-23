@@ -37,7 +37,7 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    requires: [ lint ]
+    require: [ lint ]
     concurrency: test
 
     steps:
@@ -65,7 +65,7 @@ jobs:
 
   release:
     runs-on: ubuntu-latest
-    requires: [ test ]
+    require: [ test ]
     concurrency: release
 
     permissions:
