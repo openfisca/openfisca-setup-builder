@@ -8,21 +8,28 @@ set -euo pipefail
 source 'src/first_time_setup/utils/colours.sh'
 
 # @internal
-# @arg $1 The error message.
-string.error() {
-  echo -e "$(colour::fail "${1}")" >&2
-  return 1
+string.decode.a() {
+  echo "${1}" | sed 'y/āáǎàâãäåĀÁǍÀÂÃÄÅ/aaaaaaaaAAAAAAAA/'
 }
 
 # @internal
-string.unidecode.find() {
-  local pip poetry
-  pip=$(command -v unidecode 2>/dev/null)
-  poetry=$(poetry run which unidecode 2>/dev/null)
-  [[ -n ${pip} ]] && echo "${pip}" && return
-  [[ -n ${poetry} ]] && echo "${poetry}" && return
-  string.error "Unidecode not found. Install it with 'pip install unidecode'."
-  return 1
+string.decode.e() {
+  echo "${1}" | sed 'y/ēéěèêëĒÉĚÈÊË/eeeeeeEEEEEE/'
+}
+
+# @internal
+string.decode.i() {
+  echo "${1}" | sed 'y/īíǐìîïĪÍǏÌÎÏ/iiiiiiIIIIII/'
+}
+
+# @internal
+string.decode.o() {
+  echo "${1}" | sed 'y/ōóǒòôõöŌÓǑÒÔÕÖ/oooooooOOOOOOO/'
+}
+
+# @internal
+string.decode.u() {
+  echo "${1}" | sed 'y/ūúǔùûüǖǘǚǜŪÚǓÙÛÜǕǗǙǛ/uuuuuuuuuuUUUUUUUUUU/'
 }
 
 # @description Convert a string to lowercase.
@@ -34,9 +41,17 @@ string::lower() {
 # @description Decode a string to ASCII.
 # @arg $1 The string to decode.
 string::decode() {
-  local -r unidecode=$(string.unidecode.find)
-  [[ -z ${unidecode} ]] && return 1
-  echo "${1}" | "${unidecode}"
+  local string="${1}"
+  local -r fx=(
+    string.decode.a
+    string.decode.e
+    string.decode.i
+    string.decode.o
+    string.decode.u
+  )
+  local fn
+  for fn in "${fx[@]}"; do string=$("${fn}" "${string}"); done
+  echo "${string}"
 }
 
 # @description Remove special characters from a string.

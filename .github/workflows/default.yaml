@@ -49,22 +49,11 @@ jobs:
         with:
           ref: ${{ github.sha }}
 
-      - name: Install Poetry
-        run: pipx install poetry
-
       - name: Force correct branch on workflow sha
         run: git checkout -B ${{ github.ref_name }} ${{ github.sha }}
 
-      - name: Install Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: 3.12.6
-          cache: poetry
-
       - name: Install Dependencies
-        run: |
-          ./bashdep.sh
-          poetry install --no-root --with dev --sync
+        run: ./bashdep.sh
 
       - name: Run Tests
         run: ./lib/bashunit --parallel `git ls-files "tests/*.sh"`
