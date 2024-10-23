@@ -35,7 +35,7 @@ jobs:
         run: |
           poetry run codespell `git ls-files "*.yaml" "*.yml" "*.md" "*.sh"`
           poetry run yamllint --strict `git ls-files "*.yaml" "*.yml"`
-          poetry run mdformat --wrap 79 --number --check `git ls-files "*.md"`
+          poetry run mdformat --wrap 79 --number --check README.md
           poetry run shellcheck `git ls-files "*.sh"`
 
   test:

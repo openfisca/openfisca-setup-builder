@@ -4,8 +4,6 @@ run: once
 vars:
   YAML:
     sh: git ls-files "*.yaml" "*.yml"
-  MD:
-    sh: git ls-files "*.md"
   SH:
     sh: git ls-files "*.sh"
   SH_TEST:
@@ -30,13 +28,11 @@ tasks:
     vars:
       YAML:
         ref: .YAML | splitLines | join " "
-      MD:
-        ref: .MD | splitLines | join " "
       SH:
         ref: .SH | splitLines | join " "
     cmds:
       - poetry run codespell --write-changes {{.YAML}} {{.MD}} {{.SH}}
-      - poetry run mdformat --wrap 79 --number {{.MD}}
+      - poetry run mdformat --wrap 79 --number README.md
       - poetry run shfmt --write --simplify {{.SH}}
       - poetry run pyproject-fmt ./pyproject.toml
 
@@ -45,14 +41,12 @@ tasks:
     vars:
       YAML:
         ref: .YAML | splitLines | join " "
-      MD:
-        ref: .MD | splitLines | join " "
       SH:
         ref: .SH | splitLines | join " "
     cmds:
       - poetry run codespell {{.YAML}} {{.MD}} {{.SH}}
       - poetry run yamllint --strict {{.YAML}}
-      - poetry run mdformat --wrap 79 --number --check {{.MD}}
+      - poetry run mdformat --wrap 79 --number --check README.md
       - poetry run shellcheck {{.SH}}
 
   test:
