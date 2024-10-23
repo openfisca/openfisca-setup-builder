@@ -78,7 +78,11 @@ build::apply_template() {
   echo -e "$(colour::pass 'Make the output file executable')"
   chmod u+x "${3}"
   echo -e "$(colour::pass 'Formatting the output file')"
-  poetry run shfmt --write --simplify "${3}"
+  if command -v poetry &>/dev/null; then
+    poetry run shfmt --write --simplify "${3}"
+  else
+    shfmt --write --simplify "${3}"
+  fi
 }
 
 # Main function.

@@ -24,7 +24,7 @@ shfmt-py = "^3.7.0.1"
 yamllint = "^1.35.1"
 
 [tool.semantic_release]
-build_command = "TERM=xterm-256color ./build.sh"
+build_command = "pip install shfmt-py && TERM=xterm-256color ./build.sh"
 tag_format = "{version}"
 version_toml = [ "pyproject.toml:tool.poetry.version" ]
 version_variables = [ "src/first_time_setup/messages.sh:version" ]
