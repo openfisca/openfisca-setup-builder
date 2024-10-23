@@ -1,0 +1,56 @@
+version: '3'
+run: once
+
+vars:
+  YAML:
+    sh: git ls-files "*.yaml" "*.yml"
+  MD:
+    sh: git ls-files "*.md"
+  SH:
+    sh: git ls-files "*.sh"
+  SH_TEST:
+    sh: git ls-files "tests/*.sh"
+
+tasks:
+  uninstall:
+    desc: Uninstall this library and all of its dependencies.
+    cmds:
+      - rm -rf lib
+      - poetry env remove --all
+      - pip freeze | grep -v "^-e" | sed "s/@.*//" | xargs pip uninstall -y
+
+  install:
+    desc: Install this library and all of its dependencies.
+    cmds:
+      - ./bashdep.sh
+      - poetry install --no-root --with dev --sync
+
+  format:
+    desc: Format the code using different formatters.
+    vars:
+      YAML:
+        ref: .YAML | splitLines | join " "
+      MD:
+        ref: .MD | splitLines | join " "
+      SH:
+        ref: .SH | splitLines | join " "
+    cmds:
+      - poetry run codespell --write-changes {{.YAML}} {{.MD}} {{.SH}}
+      - poetry run mdformat --wrap 79 --number {{.MD}}
+      - poetry run shfmt --write --simplify {{.SH}}
+      - poetry run pyproject-fmt ./pyproject.toml
+
+  lint:
+    desc: Lint the code using different linters.
+    vars:
+      YAML:
+        ref: .YAML | splitLines | join " "
+      MD:
+        ref: .MD | splitLines | join " "
+      SH:
+        ref: .SH | splitLines | join " "
+    cmds:
+      - poetry run codespell {{.YAML}} {{.MD}} {{.SH}}
+      - poetry run yamllint --strict {{.YAML}}
+      - poetry run mdformat --wrap 79 --number --check {{.MD}}
+      - poetry run shellcheck {{.SH}}
