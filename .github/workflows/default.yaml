@@ -77,6 +77,11 @@ jobs:
       - name: Force correct branch on workflow sha
         run: git checkout -B ${{ github.ref_name }} ${{ github.sha }}
 
+      - name: Build the library
+        env:
+            TERM: xterm-256color
+        run: ./build.sh
+
       - name: Semantic Version Tagging
         uses: python-semantic-release/python-semantic-release@v9.12.0
         with:

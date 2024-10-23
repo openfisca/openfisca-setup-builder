@@ -24,4 +24,5 @@ shfmt-py = "^3.7.0.1"
 yamllint = "^1.35.1"
 
 [tool.semantic_release]
-build_command = "./build.sh"
+tag_format = "{version}"
+version_toml = [ "pyproject.toml:tool.poetry.version" ]
