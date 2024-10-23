@@ -1,0 +1,6 @@
+external-sources=true
+enable=all
+disable=SC2155
+disable=SC2310
+disable=SC2312
+shell=bash
