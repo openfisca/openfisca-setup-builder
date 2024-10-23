@@ -13,7 +13,7 @@ source 'src/first_time_setup/utils/url.sh'
 # @arg $1 The jurisdiction name.
 setup::name_label() {
   local name="${1}"
-  local -r fx=(string::lower string::decode string::sanitise string::trim)
+  local -r fx=(string::decode string::lower string::sanitise string::trim)
   local fn
   for fn in "${fx[@]}"; do name=$("${fn}" "${name}"); done
   echo "${name}"
@@ -64,10 +64,10 @@ setup::first_commit() {
 # @arg $4 The list of files to replace.
 setup::replace_references() {
   sed -i.template "s|openfisca-extension_template|openfisca-${1}|g" \
-    README.md Makefile pyproject.toml CONTRIBUTING.md
+    README.md Taskfile.yaml pyproject.toml CONTRIBUTING.md
   # shellcheck disable=SC2086
   sed -i.template "s|extension_template|${2}|g" \
-    README.md pyproject.toml Makefile MANIFEST.in ${4}
+    README.md pyproject.toml Taskfile.yaml MANIFEST.in ${4}
   sed -i.template "s|Extension-Template|${3}|g" \
     README.md pyproject.toml .github/PULL_REQUEST_TEMPLATE.md CONTRIBUTING.md
   find . -name "*.template" -type f -delete
