@@ -1,3 +1,4 @@
-.python-version
 .idea
+.python-version
+first-time-setup.sh
 lib

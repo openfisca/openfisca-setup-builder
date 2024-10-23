@@ -22,3 +22,6 @@ pyproject-fmt = "^2.4.3"
 shellcheck-py = "^0.10.0.1"
 shfmt-py = "^3.7.0.1"
 yamllint = "^1.35.1"
+
+[tool.semantic_release]
+build_command = "./build.sh"
