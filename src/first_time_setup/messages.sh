@@ -9,7 +9,7 @@ source 'src/first_time_setup/envvars.sh'
 
 # @description Define the welcome message.
 msg::welcome() {
-  local -r version='0.0.0'
+  local -r version='0.1.0'
   cat <<MSG
 Welcome to the OpenFisca Extension Template setup script v${version}!
 
