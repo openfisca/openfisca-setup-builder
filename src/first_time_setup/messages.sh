@@ -7,15 +7,9 @@ set -euo pipefail
 
 source 'src/first_time_setup/envvars.sh'
 
-# @internal
-msg.version() {
-  grep '^version =' pyproject.toml | cut -d '"' -f 2
-}
-
 # @description Define the welcome message.
 msg::welcome() {
-  local version
-  version=$(msg.version)
+  local -r version='0.0.0'
   cat <<MSG
 Welcome to the OpenFisca Extension Template setup script v${version}!
 
