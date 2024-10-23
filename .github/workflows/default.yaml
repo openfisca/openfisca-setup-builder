@@ -14,7 +14,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref ${{ github.sha }}
+          ref: ${{ github.sha }}
 
       - name: Force correct branch on workflow sha
         run: git checkout -B ${{ github.ref_name }} ${{ github.sha }}
@@ -44,7 +44,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref ${{ github.sha }}
+          ref: ${{ github.sha }}
 
       - name: Force correct branch on workflow sha
         run: git checkout -B ${{ github.ref_name }} ${{ github.sha }}
