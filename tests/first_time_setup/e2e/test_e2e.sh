@@ -8,6 +8,7 @@ declare -xr REPOSITORY_URL='https://github.com/openfisca/openfisca-ile-d_yeu'
 
 source 'src/first_time_setup/utils/colours.sh'
 
+./build.sh 1>/dev/null
 result=$(./first-time-setup.sh  2>&1 1>/dev/null)
 
 if [[ -n "${result}" ]]; then
