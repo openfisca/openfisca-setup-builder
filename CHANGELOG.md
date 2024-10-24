@@ -6,6 +6,23 @@ Example entry for a change in the project.
 
 <!-- version list -->
 
+## v0.1.1 (2024-10-24)
+
+### Bug Fixes
+
+* fix: setup failing because inexisting function ([`92946e0`](https://github.com/openfisca/openfisca-setup-builder/commit/92946e0018c949dc8acbd1030c76540f18ea633a))
+
+### Continuous Integration
+
+* ci: make sure shfmt is installed ([`0df5924`](https://github.com/openfisca/openfisca-setup-builder/commit/0df5924c2c5ec030fc6cc5bbaff32ab2268db4da))
+
+* ci: build script before e2e test ([`787ed71`](https://github.com/openfisca/openfisca-setup-builder/commit/787ed71061543cfbfce9deab5eac49e9bb86b399))
+
+### Documentation
+
+* docs: add screenshot to README.md ([`fb3da4a`](https://github.com/openfisca/openfisca-setup-builder/commit/fb3da4a0a17ea904d62ce40e61f523b8307b05e2))
+
+
 ## v0.1.0 (2024-10-23)
 
 ### Bug Fixes

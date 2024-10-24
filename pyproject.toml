@@ -4,7 +4,7 @@ requires = [ "poetry-core" ]
 
 [tool.poetry]
 name = "openfisca-setup-builder"
-version = "0.1.0"
+version = "0.1.1"
 description = ""
 authors = [ "OpenFisca Team <contact@openfisca.org>" ]
 readme = "README.md"
