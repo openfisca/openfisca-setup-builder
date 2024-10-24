@@ -70,3 +70,10 @@ Bootstrap complete, you can now push this codebase to your remote repository.
     'cd ../openfisca-${1} to navigate to it.
 MSG
 }
+
+# @description Define the message for when running in dry mode.
+msg::dry_mode() {
+  cat <<MSG
+»skipping the next step as we are running in dry mode«
+MSG
+}

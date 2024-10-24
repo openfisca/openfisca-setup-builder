@@ -155,41 +155,37 @@ main() {
   # Initialise the repository.
   if ! "${ci}" || "${dry}"; then
     echo ''
+    if "${dry}"; then colour::warn "$(msg::dry_mode)"; fi
     colour::pass 'Initialise git repository...'
-    if ! "${dry}"; then
-      setup::init_repository "${ROOT_DIR}" "${label}" "${first_commit}"
-    else
-      colour::warn 'Skipping git repository initialisation because of dry run'
-    fi
+    setup::first_commit "${ROOT_DIR}" "${label}" "${first_commit}" "${dry}"
     colour::pass "Commit made to 'main' with message:"
     colour::logs "${first_commit}"
   fi
 
   # And go on...
+  if "${dry}"; then colour::warn "$(msg::dry_mode)"; fi
   colour::pass 'Replace default extension_template references'
   local -r files=$(git ls-files "src/${module}")
-  setup::replace_references "${label}" "${snake}" "${name}" "${files}"
+  setup::replace_references "${label}" "${snake}" "${name}" "${files}" "${dry}"
+  if "${dry}"; then colour::warn "$(msg::dry_mode)"; fi
   colour::pass 'Remove bootstrap instructions'
-  setup::remove_bootstrap_instructions "${lineno_readme}"
+  setup::remove_bootstrap_instructions "${lineno_readme}" "${dry}"
+  if "${dry}"; then colour::warn "$(msg::dry_mode)"; fi
   colour::pass 'Prepare README.md and CONTRIBUTING.md'
-  setup::prepare_readme_contributing "${url}"
+  setup::prepare_readme_contributing "${url}" "${dry}"
+  if "${dry}"; then colour::warn "$(msg::dry_mode)"; fi
   colour::pass 'Prepare CHANGELOG.md'
-  setup::prepare_changelog "${lineno_changelog}"
+  setup::prepare_changelog "${lineno_changelog}" "${dry}"
+  if "${dry}"; then colour::warn "$(msg::dry_mode)"; fi
   colour::pass 'Prepare pyproject.toml'
-  setup::prepare_pyproject "${url}" "${folder}"
+  setup::prepare_pyproject "${url}" "${folder}" "${dry}"
+  if "${dry}"; then colour::warn "$(msg::dry_mode)"; fi
   colour::pass 'Rename package to:'
   colour::logs "${package}"
-  if ! "${dry}"; then
-    setup::rename_package "${package}"
-  else
-    colour::warn 'Skipping renaming of package because of dry run'
-  fi
+  setup::rename_package "${package}" "${dry}"
+  if "${dry}"; then colour::warn "$(msg::dry_mode)"; fi
   colour::pass 'Remove single use first time setup files'
-  if ! "${dry}"; then
-    setup::remove_files
-  else
-    colour::warn 'Skipping removal of first time setup files because of dry run'
-  fi
+  setup::remove_files "${dry}"
 
   # Committing and tagging take directly place in the GitHub Actions workflow.
   if "${ci}"; then
@@ -200,12 +196,9 @@ main() {
   fi
 
   # Second commit and first tag.
+  if "${dry}"; then colour::warn "$(msg::dry_mode)"; fi
   colour::pass 'Committing and tagging...'
-  if ! "${dry}"; then
-    setup::second_commit "${second_commit}"
-  else
-    colour::warn 'Skipping committing and tagging because of dry run'
-  fi
+  setup::second_commit "${second_commit}" "${dry}"
   colour::pass "Second commit and first tag made on 'main' branch:"
   colour::logs "${second_commit}"
 

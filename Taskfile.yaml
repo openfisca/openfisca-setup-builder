@@ -6,8 +6,10 @@ vars:
     sh: git ls-files "*.yaml" "*.yml"
   SH:
     sh: git ls-files "*.sh"
-  SH_TEST:
-    sh: git ls-files "tests/*.sh"
+  UNIT_TESTS:
+    sh: git ls-files "tests/first_time_setup/unit/*.sh"
+  E2E_TESTS:
+    sh: git ls-files "tests/first_time_setup/e2e/*.sh"
 
 tasks:
   uninstall:
@@ -52,7 +54,10 @@ tasks:
   test:
     desc: Test the library.
     vars:
-      SH_TEST:
-        ref: .SH_TEST | splitLines | join " "
+      UNIT_TESTS:
+        ref: .UNIT_TESTS | splitLines | join " "
+      E2E_TESTS:
+        ref: .E2E_TESTS | splitLines | join " "
     cmds:
-      - lib/bashunit --parallel --simple {{.SH_TEST}}
+      - lib/bashunit --parallel --simple {{.UNIT_TESTS}}
+      - bash {{.E2E_TESTS}}

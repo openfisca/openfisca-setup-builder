@@ -56,7 +56,9 @@ jobs:
         run: ./bashdep.sh
 
       - name: Run Tests
-        run: ./lib/bashunit --parallel `git ls-files "tests/*.sh"`
+        run: |
+          ./lib/bashunit --parallel tests/first_time_setup/unit/**/*.sh
+          bash tests/first_time_setup/e2e/test_e2e.sh
 
   release:
     runs-on: ubuntu-22.04

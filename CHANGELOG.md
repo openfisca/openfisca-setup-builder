@@ -1,5 +1,10 @@
 # CHANGELOG
 
+# Example Entry
+
+Example entry for a change in the project.
+
+<!-- version list -->
 
 ## v0.1.0 (2024-10-23)
 

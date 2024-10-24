@@ -40,7 +40,7 @@ status::check_continue() {
     colour::pass 'Can the setup continue?'
     colour::logs "${3}"
     if "${4}"; then
-      colour::warn 'Persevering because the setup is being run in dry mode.'
+      colour::warn '»persevering because the setup is being run in dry mode«'
     fi
   else
     colour::warn 'Can the setup continue?'
