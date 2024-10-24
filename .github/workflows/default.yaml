@@ -58,7 +58,7 @@ jobs:
       - name: Run Tests
         run: |
           ./lib/bashunit --parallel tests/first_time_setup/unit/**/*.sh
-          bash tests/first_time_setup/e2e/test_e2e.sh
+          TERM=xterm-256color bash tests/first_time_setup/e2e/test_e2e.sh
 
   release:
     runs-on: ubuntu-22.04
